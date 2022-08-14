@@ -1,17 +1,3 @@
-// Copyright 2017-2019 Espressif Systems (Shanghai) PTE LTD
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 #include <string.h>
 #include <stdbool.h>
 
@@ -380,9 +366,12 @@ static void handle_ble_device_result(struct ble_scan_result_evt_param *scan_rst)
         GAP_DBG_PRINTF(", NAME: '%s'", name);
     }
     GAP_DBG_PRINTF("\n");
+    if(strcmp(name,"BT5.2 Keyboard")==0){
+        add_ble_scan_result(scan_rst->bda, scan_rst->ble_addr_type, appearance, adv_name, adv_name_len, scan_rst->rssi);
+    }
 
     if (uuid == ESP_GATT_UUID_HID_SVC) {
-        add_ble_scan_result(scan_rst->bda, scan_rst->ble_addr_type, appearance, adv_name, adv_name_len, scan_rst->rssi);
+
     }
 }
 #endif /* CONFIG_BT_BLE_ENABLED */
@@ -804,13 +793,13 @@ esp_err_t esp_hid_scan(uint32_t seconds, size_t *num_results, esp_hid_scan_resul
     }
 #endif /* CONFIG_BT_BLE_ENABLED */
 
-#if CONFIG_BT_HID_HOST_ENABLED
-    if (start_bt_scan(seconds) == ESP_OK) {
-        WAIT_BT_CB();
-    } else {
-        return ESP_FAIL;
-    }
-#endif
+//#if CONFIG_BT_HID_HOST_ENABLED
+//    if (start_bt_scan(seconds) == ESP_OK) {
+//        WAIT_BT_CB();
+//    } else {
+//        return ESP_FAIL;
+//    }
+//#endif
 
     *num_results = num_bt_scan_results + num_ble_scan_results;
     *results = bt_scan_results;

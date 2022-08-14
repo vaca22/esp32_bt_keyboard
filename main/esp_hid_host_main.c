@@ -85,6 +85,7 @@ void hid_demo_task(void *pvParameters)
     //start scan for HID devices
     esp_hid_scan(SCAN_DURATION_SECONDS, &results_len, &results);
     ESP_LOGI(TAG, "SCAN: %u results", results_len);
+    ESP_LOGE("gaga","%d",results_len);
     if (results_len) {
         esp_hid_scan_result_t *r = results;
         esp_hid_scan_result_t *cr = NULL;
@@ -110,12 +111,15 @@ void hid_demo_task(void *pvParameters)
             }
 #endif /* CONFIG_BT_HID_HOST_ENABLED */
             printf("NAME: %s ", r->name ? r->name : "");
+            if(strcmp(r->name,"BT5.2 Keyboard")==0){
+                esp_hidh_dev_open(cr->bda, cr->transport, cr->ble.addr_type);
+            }
             printf("\n");
             r = r->next;
         }
         if (cr) {
             //open the last result
-            esp_hidh_dev_open(cr->bda, cr->transport, cr->ble.addr_type);
+
         }
         //free the results
         esp_hid_scan_results_free(results);
