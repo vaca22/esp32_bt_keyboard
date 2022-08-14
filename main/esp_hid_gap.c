@@ -793,13 +793,6 @@ esp_err_t esp_hid_scan(uint32_t seconds, size_t *num_results, esp_hid_scan_resul
     }
 #endif /* CONFIG_BT_BLE_ENABLED */
 
-//#if CONFIG_BT_HID_HOST_ENABLED
-//    if (start_bt_scan(seconds) == ESP_OK) {
-//        WAIT_BT_CB();
-//    } else {
-//        return ESP_FAIL;
-//    }
-//#endif
 
     *num_results = num_bt_scan_results + num_ble_scan_results;
     *results = bt_scan_results;
