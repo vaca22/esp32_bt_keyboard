@@ -54,6 +54,16 @@ void hidh_callback(void *handler_args, esp_event_base_t base, int32_t id, void *
         const uint8_t *bda = esp_hidh_dev_bda_get(param->input.dev);
         ESP_LOGI(TAG, ESP_BD_ADDR_STR " INPUT: %8s, MAP: %2u, ID: %3u, Len: %d, Data:", ESP_BD_ADDR_HEX(bda), esp_hid_usage_str(param->input.usage), param->input.map_index, param->input.report_id, param->input.length);
         ESP_LOG_BUFFER_HEX(TAG, param->input.data, param->input.length);
+
+
+        char gaga[2]={0,0};
+        gaga[0]=97-4+param->input.data[2];
+        int gg=param->input.data[2];
+        ESP_LOGE("FUCK","%d",param->input.data[2]);
+        if(gg>=4&&gg<=29){
+            ESP_LOGE("FUCK","%s",gaga);
+        }
+
         break;
     }
     case ESP_HIDH_FEATURE_EVENT: {
